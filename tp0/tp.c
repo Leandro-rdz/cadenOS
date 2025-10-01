@@ -13,7 +13,23 @@ void tp() {
    multiboot_memory_map_t* entry = (multiboot_memory_map_t*)info->mbi->mmap_addr;
    while((uint32_t)entry < (info->mbi->mmap_addr + info->mbi->mmap_length)) {
       // TODO print "[start - end] type" for each entry
-
+      switch (entry->type)
+      {
+      case 1:
+         debug("[0x%llx - 0x%llx] MULTIBOOT_MEMORY_AVAILABLE\n",entry->addr,entry->addr+entry->len);
+         break;
+      case 2: 
+         debug("[0x%llx - 0x%llx] MULTIBOOT_MEMORY_RESERVED\n",entry->addr,entry->addr+entry->len);
+         break;
+      case 3:
+         debug("[0x%llx - 0x%llx] MULTIBOOT_MEMORY_ACPI_RECLAIMABLE\n",entry->addr,entry->addr+entry->len);
+         break;
+      case 4:
+         debug("[0x%llx - 0x%llx] MULTIBOOT_MEMORY_NVS\n",entry->addr,entry->addr+entry->len);
+         break;
+      default:
+         break;
+      }
       entry++;
    }
 
