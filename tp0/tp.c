@@ -15,16 +15,16 @@ void tp() {
       switch (entry->type)
       {
       case 1:
-         debug("[0x%llx - 0x%llx] MULTIBOOT_MEMORY_AVAILABLE\n",entry->addr,entry->addr+entry->len);
+         debug("[0x%llx - 0x%llx] MULTIBOOT_MEMORY_AVAILABLE\n",entry->addr,entry->addr+entry->len-1);
          break;
       case 2: 
-         debug("[0x%llx - 0x%llx] MULTIBOOT_MEMORY_RESERVED\n",entry->addr,entry->addr+entry->len);
+         debug("[0x%llx - 0x%llx] MULTIBOOT_MEMORY_RESERVED\n",entry->addr,entry->addr+entry->len-1);
          break;
       case 3:
-         debug("[0x%llx - 0x%llx] MULTIBOOT_MEMORY_ACPI_RECLAIMABLE\n",entry->addr,entry->addr+entry->len);
+         debug("[0x%llx - 0x%llx] MULTIBOOT_MEMORY_ACPI_RECLAIMABLE\n",entry->addr,entry->addr+entry->len-1);
          break;
       case 4:
-         debug("[0x%llx - 0x%llx] MULTIBOOT_MEMORY_NVS\n",entry->addr,entry->addr+entry->len);
+         debug("[0x%llx - 0x%llx] MULTIBOOT_MEMORY_NVS\n",entry->addr,entry->addr+entry->len-1);
          break;
       default:
          break;
@@ -45,6 +45,13 @@ void tp() {
    debug("Reserved mem (at: 0xf0000):  before: 0x%x ", *ptr_in_reserved_mem); // read
    *ptr_in_reserved_mem = 0xaaaaaaaa;                           // write
    debug("after: 0x%x\n", *ptr_in_reserved_mem);                // check
+   
+   //Q4
+   int *ptr_out_mem;
+   ptr_out_mem = (int*)0xafdffff;
+   debug("Reserved mem (at: 0xafdffff):  before: 0x%x ", *ptr_out_mem); // read
+   *ptr_out_mem = 0xdeaddead;                           // write
+   debug("after: 0x%x\n", *ptr_out_mem);                // check
    
 
 }
