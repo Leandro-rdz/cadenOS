@@ -49,7 +49,7 @@ void tp() {
    //Q4
    int *ptr_out_mem;
    ptr_out_mem = (int*)0xafdffff;
-   debug("Reserved mem (at: 0xafdffff):  before: 0x%x ", *ptr_out_mem); // read
+   debug("Outside mem (at: 0xafdffff):  before: 0x%x ", *ptr_out_mem); // read
    *ptr_out_mem = 0xdeaddead;                           // write
    debug("after: 0x%x\n", *ptr_out_mem);                // check
    

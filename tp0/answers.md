@@ -53,3 +53,24 @@ Reserved mem (at: 0xf0000):  before: 0x1f385 after: 0x1f385
 
 En regardant bien on voit que la premier pointeur est à l'adresse 0x0 donc dans une zone notée `AVAILABLE` donc disponisble en écriture. Ainsi lorsque l'on essaye d'ecrit à l'adresse du pointeur, cela marche.
 Dans le second cas, on essaye d'ecrire dans une zone `RESERVED` , l'écriture échoue donc, on le voit car la valeur lue à l'adresse ne change pas malgré l'écriture.
+
+**Q4 : Compléter la fonction `tp()` de [tp.c](./tp.c) pour essayer de lire ou
+  écrire à une adresse en dehors de la mémoire physique disponible (128 MB).
+  Que se passe-t-il ? Comment pourrait-on l'expliquer ?**
+
+```c
+ int *ptr_out_mem;
+   ptr_out_mem = (int*)0xafdffff; //~176Mib
+   debug("Outside mem (at: 0xafdffff):  before: 0x%x "*ptr_out_mem); 
+   // read 
+   *ptr_out_mem = 0xdeaddead;                           // write
+   debug("after: 0x%x\n", *ptr_out_mem);                // check
+```
+
+
+En executant ce code on voit que l'on ecrit pas en mémoire:
+```
+Outside mem (at: 0xafdffff):  before: 0x0 after: 0x0
+```
+
+En essayant d'écrire à cette adresse, on cherche à trouver le segment mémoire mappé, or le système ne trouve pas de RAM qui répond donc il ne fait rien
