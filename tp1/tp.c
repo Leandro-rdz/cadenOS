@@ -38,4 +38,59 @@ void print_gdt_content(gdt_reg_t gdtr_ptr) {
 
 void tp() {
 	// TODO
+    gdt_reg_t gdtr;
+    get_gdtr(gdtr);
+    print_gdt_content(gdtr);
+
+    debug("Displaying segments :\n");
+    debug(" CS :  0x%x\n", get_cs());
+    debug(" DS :  0x%x\n", get_ds());
+    debug(" SS :  0x%x\n", get_ss());
+    debug(" ES :  0x%x\n", get_es());
+    debug(" FS :  0x%x\n", get_fs());
+    debug(" GS :  0x%x\n", get_gs());
+   
+    
+    seg_desc_t my_gdt[7] ;
+    my_gdt[0] = (seg_desc_t){0};
+    my_gdt[1].limit_1 = 0xffff;
+    my_gdt[1].limit_2 = 0Xf;
+    my_gdt[1].base_1 = 0;
+    my_gdt[1].base_2 = 0;
+    my_gdt[1].base_3 = 0;
+    my_gdt[1].type =  SEG_DESC_CODE_XRA ;
+    my_gdt[1].s = 1;
+    my_gdt[1].dpl = 0;
+    my_gdt[1].p = 1;
+    my_gdt[1].avl = 0;
+    my_gdt[1].l = 0;
+    my_gdt[1].d = 1;
+    my_gdt[1].g = 1; 
+
+
+    my_gdt[2].limit_1 = 0xffff;
+    my_gdt[2].limit_2 = 0Xf;
+    my_gdt[2].base_1 = 0;
+    my_gdt[2].base_2 = 0;
+    my_gdt[2].base_3 = 0;
+    my_gdt[2].type =  SEG_DESC_DATA_RWA ;
+    my_gdt[2].s = 1;
+    my_gdt[2].dpl = 0;
+    my_gdt[2].p = 1;
+    my_gdt[2].avl = 0;
+    my_gdt[2].l = 0;
+    my_gdt[2].d = 1;
+    my_gdt[2].g = 1;
+
+    gdt_reg_t my_gdtr ;
+    my_gdtr.addr = (long unsigned int)my_gdt;
+    my_gdtr.limit = sizeof(my_gdtr);
+    set_gdtr(my_gdtr);
+    set_cs(1);
+    set_ss(2);
+    print_gdt_content(my_gdtr);
+
+
+
+
 }
