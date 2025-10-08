@@ -35,13 +35,7 @@ void print_gdt_content(gdt_reg_t gdtr_ptr) {
     }
 }
 
-
-void tp() {
-	// TODO
-    gdt_reg_t gdtr;
-    get_gdtr(gdtr);
-    print_gdt_content(gdtr);
-
+void diplay_segments(){
     debug("Displaying segments :\n");
     debug(" CS :  0x%x\n", get_cs());
     debug(" DS :  0x%x\n", get_ds());
@@ -50,6 +44,16 @@ void tp() {
     debug(" FS :  0x%x\n", get_fs());
     debug(" GS :  0x%x\n", get_gs());
    
+}
+
+
+void tp() {
+	// TODO
+    gdt_reg_t gdtr;
+    get_gdtr(gdtr);
+    print_gdt_content(gdtr);
+
+    diplay_segments();
     
     seg_desc_t my_gdt[7] ;
     my_gdt[0] = (seg_desc_t){0};
@@ -87,12 +91,16 @@ void tp() {
     my_gdtr.limit = sizeof(my_gdt)-1;
     set_seg_sel(gdt_krn_seg_sel(1),cs);
     set_ds(gdt_krn_seg_sel(2));
+    set_fs(gdt_krn_seg_sel(2));
+    set_ss(gdt_krn_seg_sel(2));
+    set_es(gdt_krn_seg_sel(2));
+    set_fs(gdt_krn_seg_sel(2));
     set_gdtr(my_gdtr);
     get_gdtr(my_gdtr);
     debug("Displaying MY_GDT\n");
     print_gdt_content(my_gdtr);
 
-
+    diplay_segments();
 
 
 }
