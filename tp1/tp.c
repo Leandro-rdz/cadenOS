@@ -41,4 +41,13 @@ void tp() {
     gdt_reg_t gdtr;
     get_gdtr(gdtr);
     print_gdt_content(gdtr);
+
+    debug("Displaying segments :\n");
+    debug(" CS :  0x%x\n", get_cs());
+    debug(" DS :  0x%x\n", get_ds());
+    debug(" SS :  0x%x\n", get_ss());
+    debug(" ES :  0x%x\n", get_es());
+    debug(" FS :  0x%x\n", get_fs());
+    debug(" GS :  0x%x\n", get_gs());
+   
 }

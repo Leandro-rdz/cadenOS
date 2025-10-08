@@ -27,7 +27,7 @@ typedef struct global_descriptor_table_register
 } __attribute__((packed)) gdt_reg_t;
 ```
 
-![[Pasted image 20251008115536.png]]
+![[limit_gdtr.png]]
 On a limit qui est  sur 16 bits ,  donc 64kb
 
 **Q2* : Dans [`tp.c`](https://file+.vscode-resource.vscode-cdn.net/home/leandro/Documents/TLS-SEC/TLS-SEC/OS/cadenOS/tp1/tp.c), un exemple d'implémentation d'affichage du contenu de table de type GDT est fournie (fonction `print_gdt_content`). L'utiliser pour afficher le contenu de la GDT courante.**
@@ -65,4 +65,25 @@ En l'executant on a
 - Le segment de pile (sélecteur ss)
 - D'autres segments (sélecteurs autres : es, fs, gs, etc.)
 
+![[segment_selector.png]]
+
+![[gdt_type.png]]
+
+
+On  a comme sortie : 
+```bash
+Displaying segments :
+ CS :  0x8
+ DS :  0x10
+ SS :  0x10
+ ES :  0x10
+ FS :  0x10
+ GS :  0x10
+
+```
+
+On voit que le segment de code est dans la l'index 1 de la GDT alors que le reste est à l'index 2 .
+
 **Q4 : Que constate-t-on ? Que dire de la ségrégation mémoire mise en place par défaut par GRUB avec une telle configuration ?**
+
+On constate que c'est logique car le code est dans la partie exécutable et le reste dans la partie donnée.  Par exemple le code a besoin d' s'executer donc avec le droit X et la donnée doit etre lu et écrite donc avec les permissions R/W.
