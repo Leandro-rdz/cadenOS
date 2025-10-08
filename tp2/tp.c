@@ -3,11 +3,12 @@
 #include <intr.h>
 
 void bp_handler() {
-   // TODO
+   debug("TIE LE KERNEL OU QUOI");
 }
 
 void bp_trigger() {
-	// TODO	
+	asm volatile("int3");
+	debug("en fait tié un tigre");
 }
 
 void print_idt_content(idt_reg_t idtr_ptr) {
@@ -38,4 +39,7 @@ void tp() {
 	print_idt_content(idtr);
 	// TODO call bp_trigger
    //bp_trigger();
+   idtr.desc[3].offset_1 = (uint32_t) bp_handler;
+   idtr.desc[3].offset_2 = (uint32_t) bp_handler <<16;
+   
 }
