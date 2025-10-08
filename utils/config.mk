@@ -50,7 +50,7 @@ TARGET     := kernel.elf
 
 # Qemu options
 #QEMU := $(shell which qemu-system-i386)
-QEMU := $(shell which qemu-kvm)
+QEMU := $(shell which kvm)
 QFDA := -drive media=disk,format=raw,if=floppy,file=../utils/grub.floppy
 QHDD := -drive media=disk,format=raw,if=ide,index=0,file=fat:rw:.
 QSRL := -serial mon:stdio
