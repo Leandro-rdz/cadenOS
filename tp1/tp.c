@@ -89,8 +89,8 @@ void tp() {
     gdt_reg_t my_gdtr ;
     my_gdtr.addr = (long unsigned int)my_gdt;
     my_gdtr.limit = sizeof(my_gdt)-1;
-    set_seg_sel(gdt_krn_seg_sel(1),cs);
-    set_ds(gdt_krn_seg_sel(2));
+    set_seg_sel(gdt_krn_seg_sel(2),cs);
+    set_ds(gdt_krn_seg_sel(1));
     set_fs(gdt_krn_seg_sel(2));
     set_ss(gdt_krn_seg_sel(2));
     set_es(gdt_krn_seg_sel(2));

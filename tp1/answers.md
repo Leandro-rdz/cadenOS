@@ -87,3 +87,11 @@ On voit que le segment de code est dans la l'index 1 de la GDT alors que le rest
 **Q4 : Que constate-t-on ? Que dire de la ségrégation mémoire mise en place par défaut par GRUB avec une telle configuration ?**
 
 On constate que c'est logique car le code est dans la partie exécutable et le reste dans la partie donnée.  Par exemple le code a besoin d' s'executer donc avec le droit X et la donnée doit etre lu et écrite donc avec les permissions R/W.
+
+
+**Q8 : Essayer de charger un descripteur de segment de code dans le sélecteur
+  DS. Que se passe-t-il ? Est-ce conforme avec ce que décrit la documentation
+  Intel à ce sujet ? Faire de même avec un descripteur de segment de données
+  pour le sélecteur CS.
+
+Lorsque l'on change et on met le descripteur dans le mauvais segment cela marche ... c'est pas normal ! Il devrait il y avoir une exception
