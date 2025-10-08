@@ -95,3 +95,22 @@ On constate que c'est logique car le code est dans la partie exécutable et le r
   pour le sélecteur CS.
 
 Lorsque l'on change et on met le descripteur dans le mauvais segment cela marche ... c'est pas normal ! Il devrait il y avoir une exception
+
+**Q10 : Charger le sélecteur de segment "es" de manière à adresser ce nouveau descripteur de données puis ré-exécuter la copie `_memcpy8(dst, src, 32);`. Que se passe-t-il ? Pourquoi n’y a-t-il pas de faute mémoire alors que le pointeur `dst` est NULL ?**
+
+L’instruction `_memcpy8()` repose sur l’instruction x86 `REP MOVSB`, qui copie de `[DS:ESI]` vers `[ES:EDI]`.
+
+Ici, l’adresse de destination effective devient :
+```math
+adresse_physique = base_ES + offset_dst
+                 = 0x600000 + 0x0
+                 = 0x600000
+```
+Ainsi, même si `dst = 0`, la copie s’effectue bien **en mémoire à l’adresse 0x600000**, pas à 0x0.
+Il n’y a donc **aucune faute mémoire** : le pointeur `dst` n’est qu’un **offset dans le segment ES** et non une adresse absolue.  
+
+
+**Q11 : De même, effectuer à présent une copie de 64 octets. Que se passe-t-il ? Pourquoi ?**
+
+
+Il y a une exception qui se lève car la section ne fait que 32 octet donc si on copie 64 octet on deborde du segment.
