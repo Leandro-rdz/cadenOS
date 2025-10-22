@@ -112,3 +112,5 @@ Pour modifier la pgd après activation de la pagination on mappe la pgd elle mem
 
 Lorsque l'on efface la premiere entrée du PGD => Le PGD n’indique plus de PTB pour la première plage de 4 Mo (0x00000000 → 0x003FFFFF).
 -> toutes les traductions d’adresses dans cette plage vont échouer → page fault dès qu’on y accède.
+
+**CEPANDANT, si on utilise des adresse deja utilisés meme si on flush ça marche:  on a la donnée en cache dans le TLB. Donc il traduit pas => utilise pas la pgd ni rien. Pour eviter ce bypass on peut flush la TLB avec `invalidate()`**
