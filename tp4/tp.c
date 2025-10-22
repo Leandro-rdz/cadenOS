@@ -23,6 +23,7 @@ void tp() {
 	//Q2
 	pde32_t *pgd = (pde32_t *)0x600000;
 	set_cr3((uint32_t)pgd);
+	cr3.raw = get_cr3();
 	debug("CR3 addr : %d\n",(uint32_t) cr3.raw);
 
 	//Q3
@@ -35,6 +36,7 @@ void tp() {
 	
 	
 	//Q5
+	memset((void*)pgd, 0, PAGE_SIZE);
 	for (int i = 0; i < 1024; i++){
     	pg_set_entry(&ptb[i],PG_P| PG_KRN |PG_RW , i);
 	}
@@ -50,7 +52,7 @@ void tp() {
 	pte32_t *ptb2 = (pte32_t *)0x602000;
 	
 	
-	for (int i = 0; i < (int)1024; i++){
+	for (int i = 0; i < 1024; i++){
     	pg_set_entry(&ptb2[i],PG_P| PG_KRN |PG_RW , i+1024);
 	}
 	pg_set_entry(&pgd[1],PG_P | PG_KRN | PG_RW, page_get_nr(ptb2) );
@@ -78,12 +80,14 @@ void tp() {
 
 	char *v1 = (char*)0x700000; 
 	char *v2 = (char*)0x7ff000;
+	memset((void*)ptb3, 0, PAGE_SIZE);
 	pg_set_entry(&ptb3[PTB_INDEX(0x700000)], PG_P | PG_RW | PG_KRN,page_get_nr(0x2000) );
 	pg_set_entry(&ptb3[PTB_INDEX(0x7ff000)], PG_P | PG_RW | PG_KRN,page_get_nr(0x2000) );
 	debug("%p = %s | %p = %s\n", v1, v1, v2, v2);
 
 	//Q9
 	pg_set_zero(&pgd[0]);
+	//invalidate(&pgd[0]); 
 	//char *ptr = (char*)0x0;   
 	//debug("Accès à 0x0 : %c\n", *ptr); 
 	debug("====================================TP====================================\n");
